@@ -1,4 +1,4 @@
-import type { FallingItem as FallingItemType } from '@/lib/fallingItems';
+import type { FallingItem as FallingItemType } from '@/lib/sdasd';
 
 interface FallingItemsProps {
   items: FallingItemType[];
