@@ -1,73 +1,122 @@
-# React + TypeScript + Vite
+# 🎮 Spiki Chibi Mini Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sebuah game mini yang ceria dengan karakter chibi Speaki! Tangkap jatuhan Speaki yang baik untuk mendapat poin, hindari yang jahat untuk tidak kehilangan poin. Lengkap dengan fitur audio, dark mode, dan papan skor!
 
-Currently, two official plugins are available:
+## ✨ Fitur Utama
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🎯 Gameplay
 
-## React Compiler
+- **Kontrol Speaki**: Gerak kiri/kanan dengan **A/D** atau **Arrow Keys**
+- **Lompat**: Tekan **Spasi** untuk lompat (hanya sekali per tekan)
+- **Turun Cepat**: Tekan **Arrow Down** untuk jatuh lebih cepat
+- **Drag & Lempar**: Klik dan drag Speaki, lepas untuk melempar dengan physics
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ⭐ Sistem Poin
 
-## Expanding the ESLint configuration
+- **Item Baik (Speaki Cheerful 😊)**: +10 poin saat ditangkap
+- **Item Jahat (Speaki Cry 😢)**: -5 poin saat ditangkap (dengan warning sound)
+- **Jatuh Otomatis**: Setiap 10 detik ada item baru jatuh dari atas
+- **Papan Skor**: Tampil di tengah layar dengan style chibi yang ceria
+- **Local Storage**: Skor otomatis tersimpan dan di-load saat membuka game
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🔊 Audio & Musik
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Background Music**: Musik ambient latar yang menenangkan (volume rendah)
+- **Tombol Music Toggle** (🎵/🔇): Di kiri atas untuk on/off musik
+- **Sound Effects**:
+  - 🚶 Walk sounds: Saat bergerak (3 variasi random)
+  - 😢 Cry sounds: Saat di-drag (3 variasi random)
+  - ⬆️ Jump sound: Loop saat lompat, stop saat landing
+  - ⚠️ Warning sound: One-shot saat collision bad item
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 🌙 Dark Mode
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Tombol Dark Mode** (☀️/🌙): Di kiri atas untuk ganti tema
+- **Auto-detect**: Otomatis pilih dark mode jika OS user pakai dark theme
+- **Background dinamis**: Light → `background.png`, Dark → `background-dark.png`
+- **Tema Tailwind**: Semua komponen support light & dark mode
+
+### ℹ️ Info Panel
+
+- **Tombol Info** (ℹ️): Di kanan atas untuk buka panduan
+- **Panduan Lengkap**: Instruksi kontrol dengan emoji & penjelasan detail
+- **Reset Skor**: Tombol untuk mereset skor ke 0 (dengan konfirmasi)
+- **Style Chibi**: Modal dengan gradient, border tebal, dan animasi smooth
+
+### 🎨 Desain & UX
+
+- **Chibi Aesthetic**: Karakter kecil imut dengan 3 pose (happy, cry, jump)
+- **Smooth Physics**: Gravity realistic, air resistance, friction berbeda saat grounded/airborne
+- **Animasi Smooth**: Spring animation untuk movement, bounce effect untuk falling items
+- **Responsive**: Bekerja di berbagai ukuran layar
+
+## 🎮 Cara Bermain
+
+1. **Mainkan**: Gerakkan Speaki dengan A/D atau Arrow Keys
+2. **Lompat**: Tekan Spasi untuk lompat mencapai items yang lebih tinggi
+3. **Tangkap Item Baik**: Kumpulkan Speaki yang tersenyum = +10 poin ✨
+4. **Hindari Item Jahat**: Jangan kena Speaki yang sedih = -5 poin ⚠️
+5. **Lihat Skor**: Pantau papan skor di tengah layar
+6. **Hemat Skor**: Score otomatis tersimpan di local storage
+
+## 🛠️ Teknologi
+
+- **React + TypeScript**: Untuk UI & logic yang type-safe
+- **Vite**: Build tool yang cepat
+- **Tailwind CSS**: Styling dengan dark mode support
+- **Framer Motion**: Animasi smooth & natural
+- **Web Audio API**: Playback audio effects
+- **Local Storage**: Penyimpanan skor persistent
+
+## 📁 Struktur Project
+
+```
+src/
+├── layouts/
+│   └── Spiki.tsx          # Main game component
+├── lib/
+│   └── randomSound.ts     # Helper untuk random sound selection
+├── types/
+│   └── Vec2.ts            # Vector type untuk posisi
+└── assets/
+
+public/
+├── assets/
+│   ├── Speaki-Cherrful.png   # Sprite happy
+│   ├── Speaki-Cry.png        # Sprite cry
+│   ├── Speaki-Happu.png      # Sprite jump
+│   ├── background.png        # Light mode bg
+│   └── background-dark.png   # Dark mode bg
+└── sound/
+    ├── jump.mp3
+    ├── cry-drag.mp3
+    ├── walk-1,2,3.mp3
+    ├── angry-full.mp3        # Background music
+    └── angry-half.mp3
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ⚙️ Config
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Physics
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `SPEED = 1.2`: Kecepatan horizontal
+- `GRAV = 0.6`: Gravitasi
+- `JUMP = -13`: Impuls lompat
+- `GROUND_FRICTION = 0.88`: Friction tanah
+- `AIR_RESISTANCE = 0.98`: Resistance udara
+
+### Game
+
+- `FALLING_ITEM_SPAWN = 10s`: Spawn item baru
+- `GOOD_ITEM_RATIO = 60%`: Good vs bad items
+- `GOOD_SCORE = +10`, `BAD_SCORE = -5`
+
+## 🚀 Quick Start
+
+```bash
+npm install
+npm run dev
+# Buka http://localhost:5173
 ```
+
+---
