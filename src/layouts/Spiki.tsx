@@ -158,6 +158,7 @@ export default function SpikiChibi() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             height: '20vh',
+            transform: 'scaleY(-1)',
           }}
           className={`flex-shrink-0 relative flex items-center justify-center transition-all duration-500 ${isDarkMode ? 'dark' : ''}`}
         >
