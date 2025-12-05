@@ -15,7 +15,7 @@ export function MobileControls({ onMoveLeft, onMoveRight, onJump, onJumpRelease,
     : 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white hover:from-yellow-500 hover:to-orange-600';
 
   return (
-    <div className="flex justify-center items-center gap-4 px-4 w-full h-full pointer-events-auto">
+    <div className="flex justify-center items-center gap-4 px-4 w-full h-full pointer-events-auto scale-y-[-1]">
       {/* Left Button */}
       <motion.button onMouseDown={onMoveLeft} onTouchStart={onMoveLeft} whileTap={{ scale: 0.9 }} className={`${buttonBaseClass} ${darkButtonClass}`} title="Gerak Kiri">
         ⬅️ Kiri
