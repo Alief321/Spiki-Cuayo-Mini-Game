@@ -110,8 +110,9 @@ export default function SpikiChibi() {
         backgroundPosition: 'center',
         width: '100%',
         height: '100vh',
+        maxHeight: '100vh',
       }}
-      className={`w-full h-screen overflow-hidden relative select-none transition-all duration-500 ${isDarkMode ? 'dark' : ''}`}
+      className={`w-full overflow-hidden relative select-none transition-all duration-500 fixed inset-0 ${isDarkMode ? 'dark' : ''}`}
       onMouseMove={handleMove}
       onMouseUp={handleUp}
       onTouchMove={(e) => handleMove(e as any)}

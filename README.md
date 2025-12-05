@@ -119,4 +119,4 @@ npm run dev
 # Buka http://localhost:5173
 ```
 
----
+_inspired by <a href="https://github.com/HeroBash14/Cuayo" target="_blank">HeroBash14_</a>
