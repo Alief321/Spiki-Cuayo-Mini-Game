@@ -8,7 +8,7 @@ interface SpeakiCharacterProps {
   dragging: boolean;
   jumped: boolean;
   isCollision: 'bad' | 'good' | null;
-  onMouseDown: (e: React.MouseEvent) => void;
+  onMouseDown: (e: React.MouseEvent | React.TouchEvent) => void;
 }
 
 // @ts-ignore
@@ -16,9 +16,10 @@ export function SpeakiCharacter({ pos, vel, facingRight, dragging, jumped, isCol
   return (
     <motion.div
       onMouseDown={onMouseDown}
+      onTouchStart={(e) => onMouseDown(e as any)}
       animate={{ x: pos.x, y: pos.y, scaleX: facingRight ? -1 : 1 }}
       transition={dragging ? { type: 'tween', duration: 0 } : { type: 'spring', stiffness: 120, damping: 20 }}
-      className="absolute w-[120px] h-[140px] cursor-grab active:cursor-grabbing origin-center"
+      className="absolute w-[120px] h-[140px] cursor-grab active:cursor-grabbing origin-center touch-none"
     >
       <img src={`/assets/${dragging || isCollision == 'bad' ? 'Speaki-Cry.png' : jumped || isCollision == 'good' ? 'Speaki-Happu.png' : 'Speaki-Cherrful.png'}`} className="w-full h-full object-contain" draggable={false} />
     </motion.div>

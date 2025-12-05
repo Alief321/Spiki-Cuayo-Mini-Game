@@ -6,10 +6,10 @@ Sebuah game mini yang ceria dengan karakter chibi Speaki! Tangkap jatuhan Speaki
 
 ### 🎯 Gameplay
 
-- **Kontrol Speaki**: Gerak kiri/kanan dengan **A/D** atau **Arrow Keys**
-- **Lompat**: Tekan **Spasi** untuk lompat (hanya sekali per tekan)
-- **Turun Cepat**: Tekan **Arrow Down** untuk jatuh lebih cepat
-- **Drag & Lempar**: Klik dan drag Speaki, lepas untuk melempar dengan physics
+- **Kontrol Keyboard** (Desktop): Gerak kiri/kanan dengan **A/D** atau **Arrow Keys**, **Spasi** untuk lompat
+- **Kontrol Mobile**: Tombol di bawah layar untuk **Kiri**, **Lompat**, **Kanan**
+- **Drag & Lempar**: Klik/tap dan drag Speaki, lepas untuk melempar dengan physics
+- **Responsive**: Otomatis menampilkan kontrol sesuai perangkat (keyboard untuk desktop, buttons untuk mobile)
 
 ### ⭐ Sistem Poin
 
@@ -48,7 +48,7 @@ Sebuah game mini yang ceria dengan karakter chibi Speaki! Tangkap jatuhan Speaki
 - **Chibi Aesthetic**: Karakter kecil imut dengan 3 pose (happy, cry, jump)
 - **Smooth Physics**: Gravity realistic, air resistance, friction berbeda saat grounded/airborne
 - **Animasi Smooth**: Spring animation untuk movement, bounce effect untuk falling items
-- **Responsive**: Bekerja di berbagai ukuran layar
+- **Mobile Optimized**: Kontrol button-based di bottom untuk layar kecil, tetap support keyboard untuk desktop
 
 ## 🎮 Cara Bermain
 

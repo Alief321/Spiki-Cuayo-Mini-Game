@@ -7,13 +7,13 @@ import { InfoButton } from '@/components/game/InfoButton';
 import { InfoModal } from '@/components/game/InfoModal';
 import { FallingItems } from '@/components/game/FallingItems';
 import { SpeakiCharacter } from '@/components/game/SpeakiCharacter';
+import { MobileControls } from '@/components/game/MobileControls';
 import { usePhysics } from '@/hooks/usePhysics';
 import { useAudio } from '@/hooks/useAudio';
 import { useKeyboard } from '@/hooks/useKeyboard';
 import { useDrag } from '@/hooks/useDrag';
 import { useFallingItems } from '@/hooks/useFallingItems';
 import { useJumpAudio, useBackgroundMusic, playCollisionSound } from '@/hooks/useSoundEffects';
-import { ResetScore } from '@/components/game/ResetScoreToggle';
 
 export default function SpikiChibi() {
   // State Management
@@ -68,16 +68,11 @@ export default function SpikiChibi() {
     SPRITE_H,
   });
 
-  // reset score function
-  function resetScore() {
-    if (window.confirm('Apakah kamu yakin ingin mereset skor? Tindakan ini tidak bisa dibatalkan.')) {
-      setScore(0);
-      localStorage.setItem('speakiScore', '0');
-    }
-  }
+  // Detect Mobile
+  const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-  // Sound Effects
-  useKeyboard({
+  // Sound Effects & Keyboard
+  const { handleMoveLeft, handleMoveRight, handleJump, handleJumpRelease } = useKeyboard({
     dragging,
     grounded,
     vel,
@@ -119,6 +114,8 @@ export default function SpikiChibi() {
       className={`w-full h-screen overflow-hidden relative select-none transition-all duration-500 ${isDarkMode ? 'dark' : ''}`}
       onMouseMove={handleMove}
       onMouseUp={handleUp}
+      onTouchMove={(e) => handleMove(e as any)}
+      onTouchEnd={handleUp}
     >
       {/* Falling Items */}
       <FallingItems items={fallingItems} />
@@ -136,10 +133,20 @@ export default function SpikiChibi() {
       <InfoButton isDarkMode={isDarkMode} onClick={() => setShowInfo(!showInfo)} />
 
       {/* Info Modal */}
-      <InfoModal isOpen={showInfo} onClose={() => setShowInfo(false)} isDarkMode={isDarkMode} onResetScore={() => resetScore()} />
+      <InfoModal
+        isOpen={showInfo}
+        onClose={() => setShowInfo(false)}
+        isDarkMode={isDarkMode}
+        onResetScore={() => {
+          setScore(0);
+          localStorage.removeItem('speakiScore');
+        }}
+      />
 
-      {/* Reset Score Button */}
-      {<ResetScore isDarkMode={isDarkMode} onToggle={() => resetScore()} />}
+      {/* check device is mobile? */}
+
+      {/* Mobile Controls */}
+      {isMobile && <MobileControls onMoveLeft={handleMoveLeft} onMoveRight={handleMoveRight} onJump={handleJump} onJumpRelease={handleJumpRelease} isDarkMode={isDarkMode} />}
 
       {/* Speaki Character */}
       <SpeakiCharacter pos={pos} vel={vel} facingRight={facingRight} dragging={dragging} jumped={jumped} isCollision={isCollision} onMouseDown={dragDown} />

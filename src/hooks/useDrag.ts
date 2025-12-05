@@ -13,43 +13,54 @@ interface UseDragProps {
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
+type MouseOrTouchEvent = React.MouseEvent | React.TouchEvent;
+
+function getCoords(e: MouseOrTouchEvent): { clientX: number; clientY: number } {
+  if ('touches' in e) {
+    return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+  }
+  return { clientX: e.clientX, clientY: e.clientY };
+}
+
 // @ts-ignore
 export function useDrag({ pos, setPos, setVel, cryAudio, lastThrowTime, SPRITE_W, SPRITE_H, containerRef }: UseDragProps) {
   const [dragging, setDragging] = useState(false);
   const lastMouse = useRef<Vec2>({ x: 0, y: 0 });
   const dragOffset = useRef<Vec2>({ x: 0, y: 0 });
 
-  function handleDown(e: React.MouseEvent) {
+  function handleDown(e: MouseOrTouchEvent) {
+    const { clientX, clientY } = getCoords(e);
     setDragging(true);
     const container = containerRef.current;
     if (container) {
       const rect = container.getBoundingClientRect();
       dragOffset.current = {
-        x: e.clientX - rect.left - pos.x,
-        y: e.clientY - rect.top - pos.y,
+        x: clientX - rect.left - pos.x,
+        y: clientY - rect.top - pos.y,
       };
     }
-    lastMouse.current = { x: e.clientX, y: e.clientY };
+    lastMouse.current = { x: clientX, y: clientY };
     cryAudio.current = new Audio(getRandomCrySound());
     cryAudio.current.loop = true;
     cryAudio.current.currentTime = 0;
     cryAudio.current.play().catch(() => {});
   }
 
-  function handleMove(e: React.MouseEvent) {
+  function handleMove(e: MouseOrTouchEvent) {
     if (!dragging) return;
 
+    const { clientX, clientY } = getCoords(e);
     const container = containerRef.current;
     if (!container) return;
 
     const rect = container.getBoundingClientRect();
-    const dx = e.clientX - lastMouse.current.x;
-    const dy = e.clientY - lastMouse.current.y;
+    const dx = clientX - lastMouse.current.x;
+    const dy = clientY - lastMouse.current.y;
 
-    const newX = e.clientX - rect.left - dragOffset.current.x;
-    const newY = e.clientY - rect.top - dragOffset.current.y;
+    const newX = clientX - rect.left - dragOffset.current.x;
+    const newY = clientY - rect.top - dragOffset.current.y;
 
-    lastMouse.current = { x: e.clientX, y: e.clientY };
+    lastMouse.current = { x: clientX, y: clientY };
     setPos(() => ({ x: newX, y: newY }));
     setVel(() => ({ x: dx * 0.7, y: dy * 0.7 }));
   }

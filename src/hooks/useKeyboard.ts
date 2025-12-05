@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import type { Vec2 } from '@/types/Vec2';
 import { getRandomWalkSound } from '@/lib/randomSound';
 
@@ -19,6 +19,32 @@ interface UseKeyboardProps {
 }
 
 export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJumped, jumpAudio, walkAudio, isWalkPlaying, setIsWalkPlaying, SPEED, JUMP, FAST_DROP }: UseKeyboardProps) {
+  // Mobile button handlers
+  const handleMoveLeft = useCallback(() => {
+    if (dragging) return;
+    setVel((v) => ({ ...v, x: v.x - SPEED }));
+  }, [dragging, SPEED, setVel]);
+
+  const handleMoveRight = useCallback(() => {
+    if (dragging) return;
+    setVel((v) => ({ ...v, x: v.x + SPEED }));
+  }, [dragging, SPEED, setVel]);
+
+  const handleJump = useCallback(() => {
+    if (dragging || !grounded || jumpPressed.current) return;
+    setVel((v) => ({ ...v, y: JUMP }));
+    jumpPressed.current = true;
+    setJumped(true);
+    if (jumpAudio.current && jumpAudio.current.paused) {
+      jumpAudio.current.currentTime = 0;
+      jumpAudio.current.play().catch(() => {});
+    }
+  }, [dragging, grounded, jumpPressed, JUMP, setVel, setJumped, jumpAudio]);
+
+  const handleJumpRelease = useCallback(() => {
+    jumpPressed.current = false;
+    setJumped(false);
+  }, [setJumped]);
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (dragging) return;
@@ -81,4 +107,11 @@ export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJ
       };
     }
   }, [vel.x, grounded, dragging, isWalkPlaying, setIsWalkPlaying, walkAudio]);
+
+  return {
+    handleMoveLeft,
+    handleMoveRight,
+    handleJump,
+    handleJumpRelease,
+  };
 }
