@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import type { FallingItem } from '@/lib/sdasd';
+import type { FallingItem } from '@/lib/fallingItems';
 
 interface UseFallingItemsProps {
   pos: { x: number; y: number };
