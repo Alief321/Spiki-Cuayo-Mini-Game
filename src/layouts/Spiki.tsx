@@ -53,14 +53,14 @@ export default function SpikiChibi() {
           localStorage.setItem('speakiScore', newScore.toString());
           return newScore;
         });
-        playCollisionSound(jumpAudio);
+        playCollisionSound(jumpAudio, false);
       } else {
         setScore((prev) => {
           const newScore = Math.max(0, prev - 5);
           localStorage.setItem('speakiScore', newScore.toString());
           return newScore;
         });
-        playCollisionSound(cryAudio2);
+        playCollisionSound(cryAudio2, false);
       }
       setTimeout(() => setIsCollision(null), 500);
     },

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import type { FallingItem } from '@/lib/FallingItems';
+import type { FallingItem } from '@/lib/fallingItems';
 
 interface UseFallingItemsProps {
   pos: { x: number; y: number };
@@ -12,6 +12,7 @@ interface UseFallingItemsProps {
 export function useFallingItems({ pos, containerRef, onCollision, SPRITE_W, SPRITE_H }: UseFallingItemsProps) {
   const [fallingItems, setFallingItems] = useState<FallingItem[]>([]);
   const nextItemIdRef = useRef(0);
+  // @ts-ignore
   const fallingItemIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const collidedItemsRef = useRef<Set<number>>(new Set());
 

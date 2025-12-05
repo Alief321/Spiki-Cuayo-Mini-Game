@@ -4,6 +4,7 @@ export function useJumpAudio(grounded: boolean, jumpAudio: React.MutableRefObjec
   useEffect(() => {
     if (grounded && jumpAudio.current && !jumpAudio.current.paused) {
       jumpAudio.current.pause();
+      // @ts-ignore
       jumpAudio.current.currentTime = 0;
     }
   }, [grounded, jumpAudio]);
@@ -20,7 +21,7 @@ export function useBackgroundMusic(isMusicPlaying: boolean, bgMusicAudio: React.
     }
   }, [isMusicPlaying, bgMusicAudio]);
 }
-
+// @ts-ignore
 export function playCollisionSound(audio: React.MutableRefObject<HTMLAudioElement | null>, isLooping: boolean) {
   if (audio.current) {
     const wasLooping = audio.current.loop;

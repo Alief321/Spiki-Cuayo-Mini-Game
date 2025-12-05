@@ -1,7 +1,7 @@
-import type { FallingItem } from '@/lib/FallingItems';
+import type { FallingItem as FallingItemType } from '@/lib/fallingItems';
 
 interface FallingItemsProps {
-  items: FallingItem[];
+  items: FallingItemType[];
 }
 
 export function FallingItems({ items }: FallingItemsProps) {

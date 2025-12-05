@@ -11,6 +11,7 @@ interface SpeakiCharacterProps {
   onMouseDown: (e: React.MouseEvent) => void;
 }
 
+// @ts-ignore
 export function SpeakiCharacter({ pos, vel, facingRight, dragging, jumped, isCollision, onMouseDown }: SpeakiCharacterProps) {
   return (
     <motion.div

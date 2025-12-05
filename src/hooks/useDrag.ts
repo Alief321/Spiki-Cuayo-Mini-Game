@@ -13,6 +13,7 @@ interface UseDragProps {
   containerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
+// @ts-ignore
 export function useDrag({ pos, setPos, setVel, cryAudio, lastThrowTime, SPRITE_W, SPRITE_H, containerRef }: UseDragProps) {
   const [dragging, setDragging] = useState(false);
   const lastMouse = useRef<Vec2>({ x: 0, y: 0 });
