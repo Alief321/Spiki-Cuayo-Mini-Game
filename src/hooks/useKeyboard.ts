@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import type { Vec2 } from '@/types/Vec2';
 import { getRandomWalkSound } from '@/lib/randomSound';
 
@@ -19,16 +19,40 @@ interface UseKeyboardProps {
 }
 
 export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJumped, jumpAudio, walkAudio, isWalkPlaying, setIsWalkPlaying, SPEED, JUMP, FAST_DROP }: UseKeyboardProps) {
-  // Mobile button handlers
+  const isMovingRef = useRef(false);
+
+  // Mobile button handlers - trigger walk sound
   const handleMoveLeft = useCallback(() => {
     if (dragging) return;
+    isMovingRef.current = true;
     setVel((v) => ({ ...v, x: v.x - SPEED }));
-  }, [dragging, SPEED, setVel]);
+    // Trigger walk sound immediately
+    if (grounded && !isWalkPlaying && walkAudio.current) {
+      walkAudio.current = new Audio(getRandomWalkSound());
+      walkAudio.current.currentTime = 0;
+      walkAudio.current.play().catch(() => {});
+      setIsWalkPlaying(true);
+      walkAudio.current.onended = () => {
+        setIsWalkPlaying(false);
+      };
+    }
+  }, [dragging, SPEED, setVel, grounded, isWalkPlaying, setIsWalkPlaying, walkAudio]);
 
   const handleMoveRight = useCallback(() => {
     if (dragging) return;
+    isMovingRef.current = true;
     setVel((v) => ({ ...v, x: v.x + SPEED }));
-  }, [dragging, SPEED, setVel]);
+    // Trigger walk sound immediately
+    if (grounded && !isWalkPlaying && walkAudio.current) {
+      walkAudio.current = new Audio(getRandomWalkSound());
+      walkAudio.current.currentTime = 0;
+      walkAudio.current.play().catch(() => {});
+      setIsWalkPlaying(true);
+      walkAudio.current.onended = () => {
+        setIsWalkPlaying(false);
+      };
+    }
+  }, [dragging, SPEED, setVel, grounded, isWalkPlaying, setIsWalkPlaying, walkAudio]);
 
   const handleJump = useCallback(() => {
     if (dragging || !grounded || jumpPressed.current) return;
@@ -73,6 +97,7 @@ export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJ
       }
 
       if (isLeft || isRight) {
+        isMovingRef.current = true;
         setVel((v) => ({ ...v, x: v.x + (isLeft ? -SPEED : SPEED) }));
       }
     }
