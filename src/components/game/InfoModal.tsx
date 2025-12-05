@@ -138,8 +138,14 @@ export function InfoModal({ isOpen, onClose, isDarkMode, onResetScore }: InfoMod
           </div>
         </div>
 
-        <div className={`mt-4 p-3 rounded-2xl border-2 ${isDarkMode ? 'border-purple-300' : 'border-yellow-300'}`}>
+        <div className={`mt-4 p-3 rounded-2xl border-2  ${isDarkMode ? 'border-purple-300' : 'border-yellow-300'}`}>
           <p className="text-xs text-gray-600 text-center italic">✨ Selamat bermain dengan Speaki Cuayooo! ✨</p>
+          <p className="text-xs text-gray-600 text-center italic mt-2">
+            link repositori:{' '}
+            <a href="https://github.com/Alief321/Spiki-Cuayo-Mini-Game" target="_blank" rel="noopener noreferrer" className="text-blue-800">
+              https://github.com/Alief321/Spiki-Cuayo-Mini-Game
+            </a>
+          </p>
         </div>
       </motion.div>
     </motion.div>
