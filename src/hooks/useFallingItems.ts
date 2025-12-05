@@ -11,13 +11,36 @@ interface UseFallingItemsProps {
 
 export function useFallingItems({ pos, containerRef, onCollision, SPRITE_W, SPRITE_H }: UseFallingItemsProps) {
   const [fallingItems, setFallingItems] = useState<FallingItem[]>([]);
+  const [isPageVisible, setIsPageVisible] = useState(true);
   const nextItemIdRef = useRef(0);
   // @ts-ignore
   const fallingItemIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const collidedItemsRef = useRef<Set<number>>(new Set());
 
-  // Spawn falling items every 10 seconds
+  // Track page visibility
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsPageVisible(!document.hidden);
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  // Spawn falling items every 2 seconds (only when page is visible)
+  useEffect(() => {
+    if (!isPageVisible) {
+      // Clear interval when page is not visible
+      if (fallingItemIntervalRef.current) {
+        clearInterval(fallingItemIntervalRef.current);
+        fallingItemIntervalRef.current = null;
+      }
+      return;
+    }
+
     fallingItemIntervalRef.current = setInterval(() => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
@@ -39,10 +62,14 @@ export function useFallingItems({ pos, containerRef, onCollision, SPRITE_W, SPRI
         clearInterval(fallingItemIntervalRef.current);
       }
     };
-  }, [containerRef]);
+  }, [containerRef, isPageVisible]);
 
-  // Animate falling items and check collisions
+  // Animate falling items and check collisions (only when page is visible)
   useEffect(() => {
+    if (!isPageVisible) {
+      return; // Don't animate when page is not visible
+    }
+
     let animationFrameId: number;
 
     const fallTick = () => {
@@ -78,7 +105,7 @@ export function useFallingItems({ pos, containerRef, onCollision, SPRITE_W, SPRI
     animationFrameId = requestAnimationFrame(fallTick);
 
     return () => cancelAnimationFrame(animationFrameId);
-  }, [pos.x, pos.y, SPRITE_W, SPRITE_H, containerRef, onCollision]);
+  }, [pos.x, pos.y, SPRITE_W, SPRITE_H, containerRef, onCollision, isPageVisible]);
 
   return { fallingItems };
 }

@@ -102,55 +102,68 @@ export default function SpikiChibi() {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        backgroundImage: `url('/assets/${isDarkMode ? 'background-dark.png' : 'background.png'}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        width: '100%',
-        height: '100vh',
-        maxHeight: '100vh',
-      }}
-      className={`w-full overflow-hidden relative select-none transition-all duration-500 fixed inset-0 ${isDarkMode ? 'dark' : ''}`}
-      onMouseMove={handleMove}
-      onMouseUp={handleUp}
-      onTouchMove={(e) => handleMove(e as any)}
-      onTouchEnd={handleUp}
-    >
-      {/* Falling Items */}
-      <FallingItems items={fallingItems} />
-
-      {/* Scoreboard */}
-      <Scoreboard score={score} isDarkMode={isDarkMode} />
-
-      {/* Music Toggle Button */}
-      <MusicButton isMusicPlaying={isMusicPlaying} onToggle={() => setIsMusicPlaying(!isMusicPlaying)} isDarkMode={isDarkMode} />
-
-      {/* Dark Mode Toggle Button */}
-      <DarkModeButton isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
-
-      {/* Info Button */}
-      <InfoButton isDarkMode={isDarkMode} onClick={() => setShowInfo(!showInfo)} />
-
-      {/* Info Modal */}
-      <InfoModal
-        isOpen={showInfo}
-        onClose={() => setShowInfo(false)}
-        isDarkMode={isDarkMode}
-        onResetScore={() => {
-          setScore(0);
-          localStorage.removeItem('speakiScore');
+    <div className="fixed inset-0 overflow-hidden flex flex-col">
+      {/* Game Area */}
+      <div
+        ref={containerRef}
+        style={{
+          backgroundImage: `url('/assets/${isDarkMode ? 'background-dark.png' : 'background.png'}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          width: '100%',
+          height: isMobile ? '80vh' : '100vh',
+          maxHeight: isMobile ? '80vh' : '100vh',
         }}
-      />
+        className={`relative overflow-hidden select-none transition-all duration-500 ${isDarkMode ? 'dark' : ''}`}
+        onMouseMove={handleMove}
+        onMouseUp={handleUp}
+        onTouchMove={(e) => handleMove(e as any)}
+        onTouchEnd={handleUp}
+      >
+        {/* Falling Items */}
+        <FallingItems items={fallingItems} />
 
-      {/* check device is mobile? */}
+        {/* Scoreboard */}
+        <Scoreboard score={score} isDarkMode={isDarkMode} />
 
-      {/* Mobile Controls */}
-      {isMobile && <MobileControls onMoveLeft={handleMoveLeft} onMoveRight={handleMoveRight} onJump={handleJump} onJumpRelease={handleJumpRelease} isDarkMode={isDarkMode} />}
+        {/* Music Toggle Button */}
+        <MusicButton isMusicPlaying={isMusicPlaying} onToggle={() => setIsMusicPlaying(!isMusicPlaying)} isDarkMode={isDarkMode} />
 
-      {/* Speaki Character */}
-      <SpeakiCharacter pos={pos} vel={vel} facingRight={facingRight} dragging={dragging} jumped={jumped} isCollision={isCollision} onMouseDown={dragDown} />
+        {/* Dark Mode Toggle Button */}
+        <DarkModeButton isDarkMode={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
+
+        {/* Info Button */}
+        <InfoButton isDarkMode={isDarkMode} onClick={() => setShowInfo(!showInfo)} />
+
+        {/* Info Modal */}
+        <InfoModal
+          isOpen={showInfo}
+          onClose={() => setShowInfo(false)}
+          isDarkMode={isDarkMode}
+          onResetScore={() => {
+            setScore(0);
+            localStorage.removeItem('speakiScore');
+          }}
+        />
+
+        {/* Speaki Character */}
+        <SpeakiCharacter pos={pos} vel={vel} facingRight={facingRight} dragging={dragging} jumped={jumped} isCollision={isCollision} onMouseDown={dragDown} />
+      </div>
+
+      {/* Mobile Controls Area - 20% bottom */}
+      {isMobile && (
+        <div
+          style={{
+            backgroundImage: `url('/assets/${isDarkMode ? 'background-dark.png' : 'background.png'}')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            height: '20vh',
+          }}
+          className={`flex-shrink-0 relative flex items-center justify-center transition-all duration-500 ${isDarkMode ? 'dark' : ''}`}
+        >
+          <MobileControls onMoveLeft={handleMoveLeft} onMoveRight={handleMoveRight} onJump={handleJump} onJumpRelease={handleJumpRelease} isDarkMode={isDarkMode} />
+        </div>
+      )}
     </div>
   );
 }
