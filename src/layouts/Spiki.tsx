@@ -154,7 +154,7 @@ export default function SpikiChibi() {
       {isMobile && (
         <div
           style={{
-            backgroundImage: `url('/assets/${isDarkMode ? 'background-dark.png' : 'background.png'}')`,
+            backgroundImage: `url('/assets/${isDarkMode ? 'land-dark.png' : 'land-light.png'}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             height: '20vh',
