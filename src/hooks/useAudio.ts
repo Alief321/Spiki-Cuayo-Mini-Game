@@ -17,6 +17,11 @@ export function useAudio() {
     bgMusicAudio.current = new Audio('/sound/background-music.mp3');
     bgMusicAudio.current.loop = true;
     bgMusicAudio.current.volume = 0.3;
+
+    // Initialize walkAudio untuk mobile compatibility
+    // Audio instance perlu dibuat di awal agar bisa di-play dari user interaction
+    walkAudio.current = new Audio();
+    walkAudio.current.preload = 'auto';
   }, []);
 
   return { jumpAudio, cryAudio, cryAudio2, walkAudio, bgMusicAudio };

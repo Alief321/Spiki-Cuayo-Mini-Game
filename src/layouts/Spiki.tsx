@@ -101,6 +101,20 @@ export default function SpikiChibi() {
     }
   }, []);
 
+  // Setup walkAudio onended event untuk mobile compatibility
+  useEffect(() => {
+    const audio = walkAudio.current;
+    if (audio) {
+      const handleEnded = () => {
+        setIsWalkPlaying(false);
+      };
+      audio.addEventListener('ended', handleEnded);
+      return () => {
+        audio.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, [walkAudio]);
+
   return (
     <div className="fixed inset-0 overflow-hidden flex flex-col">
       {/* Game Area */}

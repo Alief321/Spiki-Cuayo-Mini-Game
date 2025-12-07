@@ -27,32 +27,38 @@ export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJ
     isMovingRef.current = true;
     setVel((v) => ({ ...v, x: v.x - SPEED }));
     // Trigger walk sound immediately on interaction (mobile-safe)
-    if (!isWalkPlaying) {
-      walkAudio.current = new Audio(getRandomWalkSound());
-      walkAudio.current.currentTime = 0;
-      walkAudio.current.play().catch(() => {});
-      setIsWalkPlaying(true);
-      walkAudio.current.onended = () => {
-        setIsWalkPlaying(false);
-      };
+    // Hanya play jika tidak sedang playing, untuk mobile compatibility
+    if (!isWalkPlaying && walkAudio.current) {
+      try {
+        walkAudio.current.currentTime = 0;
+        walkAudio.current.src = getRandomWalkSound();
+        walkAudio.current.play().then(() => {
+          setIsWalkPlaying(true);
+        }).catch(() => {});
+      } catch (e) {
+        // Fallback jika audio sudah ada
+      }
     }
-  }, [dragging, SPEED, setVel, grounded, isWalkPlaying, setIsWalkPlaying, walkAudio]);
+  }, [dragging, SPEED, setVel, isWalkPlaying, setIsWalkPlaying, walkAudio]);
 
   const handleMoveRight = useCallback(() => {
     if (dragging) return;
     isMovingRef.current = true;
     setVel((v) => ({ ...v, x: v.x + SPEED }));
     // Trigger walk sound immediately on interaction (mobile-safe)
-    if (!isWalkPlaying) {
-      walkAudio.current = new Audio(getRandomWalkSound());
-      walkAudio.current.currentTime = 0;
-      walkAudio.current.play().catch(() => {});
-      setIsWalkPlaying(true);
-      walkAudio.current.onended = () => {
-        setIsWalkPlaying(false);
-      };
+    // Hanya play jika tidak sedang playing, untuk mobile compatibility
+    if (!isWalkPlaying && walkAudio.current) {
+      try {
+        walkAudio.current.currentTime = 0;
+        walkAudio.current.src = getRandomWalkSound();
+        walkAudio.current.play().then(() => {
+          setIsWalkPlaying(true);
+        }).catch(() => {});
+      } catch (e) {
+        // Fallback jika audio sudah ada
+      }
     }
-  }, [dragging, SPEED, setVel, grounded, isWalkPlaying, setIsWalkPlaying, walkAudio]);
+  }, [dragging, SPEED, setVel, isWalkPlaying, setIsWalkPlaying, walkAudio]);
 
   const handleJump = useCallback(() => {
     if (dragging || !grounded || jumpPressed.current) return;
@@ -121,15 +127,16 @@ export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJ
   useEffect(() => {
     const isMoving = grounded && Math.abs(vel.x) > 0.5 && !dragging;
 
-    if (isMoving && !isWalkPlaying) {
-      walkAudio.current = new Audio(getRandomWalkSound());
-      walkAudio.current.currentTime = 0;
-      walkAudio.current.play().catch(() => {});
-      setIsWalkPlaying(true);
-
-      walkAudio.current.onended = () => {
-        setIsWalkPlaying(false);
-      };
+    if (isMoving && !isWalkPlaying && walkAudio.current) {
+      try {
+        walkAudio.current.currentTime = 0;
+        walkAudio.current.src = getRandomWalkSound();
+        walkAudio.current.play().then(() => {
+          setIsWalkPlaying(true);
+        }).catch(() => {});
+      } catch (e) {
+        // Silent fail untuk mobile compatibility
+      }
     }
   }, [vel.x, grounded, dragging, isWalkPlaying, setIsWalkPlaying, walkAudio]);
 
