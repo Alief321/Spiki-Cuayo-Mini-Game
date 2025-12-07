@@ -26,8 +26,8 @@ export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJ
     if (dragging) return;
     isMovingRef.current = true;
     setVel((v) => ({ ...v, x: v.x - SPEED }));
-    // Trigger walk sound immediately
-    if (grounded && !isWalkPlaying && walkAudio.current) {
+    // Trigger walk sound immediately on interaction (mobile-safe)
+    if (grounded && !isWalkPlaying) {
       walkAudio.current = new Audio(getRandomWalkSound());
       walkAudio.current.currentTime = 0;
       walkAudio.current.play().catch(() => {});
@@ -42,8 +42,8 @@ export function useKeyboard({ dragging, grounded, vel, setVel, jumpPressed, setJ
     if (dragging) return;
     isMovingRef.current = true;
     setVel((v) => ({ ...v, x: v.x + SPEED }));
-    // Trigger walk sound immediately
-    if (grounded && !isWalkPlaying && walkAudio.current) {
+    // Trigger walk sound immediately on interaction (mobile-safe)
+    if (grounded && !isWalkPlaying) {
       walkAudio.current = new Audio(getRandomWalkSound());
       walkAudio.current.currentTime = 0;
       walkAudio.current.play().catch(() => {});
