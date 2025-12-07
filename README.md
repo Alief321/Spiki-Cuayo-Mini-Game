@@ -5,8 +5,9 @@ Sebuah game mini yang ceria dengan karakter chibi Speaki! Tangkap jatuhan Speaki
 ## 📺 Demo & Screenshot
 
 ### Gameplay Demo
-
+[demo.webm](https://github.com/user-attachments/assets/7e1c96cc-859f-452e-a9fe-b98b40852b0f)
 > 🎬 [Link Video Demo](https://drive.google.com/file/d/1ahuGxrkp7T-m_rMRUjfK9Nm91ErxbTQl/view?usp=drive_link) - Demonstrasi gameplay lengkap
+
 
 ### Screenshot
 
