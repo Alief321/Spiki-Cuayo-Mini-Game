@@ -331,7 +331,7 @@ npm run lint
 
 ## 📝 Credits & Inspiration
 
-Inspired by **[HeroBash14/Cuayo](https://github.com/HeroBash14/Cuayo)** -
+Inspired by **[Jrhero14/Trickcal-Chibi-Go-Pet-Desktop](https://github.com/Jrhero14/Trickcal-Chibi-Go-Pet-Desktop)** 
 
 ## 📜 License
 
